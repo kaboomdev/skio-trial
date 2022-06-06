@@ -147,6 +147,11 @@
               <product-form>
                 {%- form 'product', card_product, id: product_form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
                   <input type="hidden" name="id" value="{{ card_product.selected_or_first_available_variant.id }}" disabled>
+                  
+                  <div class="quick-add__selling-plans">
+                    {% render 'skio-plan-picker', product: card_product, form_id: product_form_id, key: product_form_id %}
+                  </div>
+                  
                   <button
                     id="{{ product_form_id }}-submit"
                     type="submit"
