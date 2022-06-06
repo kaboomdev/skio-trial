@@ -51,9 +51,7 @@
         { exit: true }
       );
 
-      // MAIN PRODUCT
-      // ASK: Why is this needed?
-      skio.mainProduct = $planPicker.hasAttribute('skio-main-product');
+    
 
       // DISCOUNT FORMAT	
       skio.discountFormat = $planPicker.getAttribute('skio-discount-format');	
@@ -107,6 +105,12 @@
       }
       assert(skio.product, 'Product is required', { exit: true });
   
+      
+      // MAIN PRODUCT
+      // NOTE: Added another check against the current handle in URL to prevent AJAX sections change the query params
+      const urlPath = window.location.pathname.split('/');
+      skio.isMainProduct = $planPicker.hasAttribute('skio-main-product') && urlPath[urlPath.length - 1] === skio.product.handle;
+      
 
       // VARIANT ID
       const validateVariantId = (variantId) => {
@@ -311,7 +315,7 @@
   
           skio.sellingPlanId = sellingPlanId;
           $sellingPlan.value = sellingPlanId;
-          if (skio.mainProduct) updateUrlParam(sellingPlanId);
+          if (skio.isMainProduct) updateUrlParam(sellingPlanId);
           updateDiscounts();
           updatePrices();
           $planPicker.dispatchEvent(new CustomEvent('skio:plan-picker:update', { detail: { skio } }));

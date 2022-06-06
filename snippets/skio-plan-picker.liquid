@@ -21,10 +21,12 @@ Usage optional: {% render 'skio-plan-picker', product: product, key: key, form_i
 {% if product.selling_plan_groups.size > 0 %}
   {% comment %} SCRIPT {% endcomment %}
   <script>
-    const selector = 'fieldset[skio-plan-picker]';
+    // NOTE: Changed from const to window binding because const in global scope threw errors in AJAX Sections
+    window.skio_selector = 'fieldset[skio-plan-picker]';
     // Only loads the script if a plan picker is on the page, and only once
     // the main element is hovered over. doesn't load multiple times if there is are multiple plan pickers.
     // Defer loading to reduce load impact
+    
     if (window.skio_plan_picker_script_load === undefined) {
       window.skio_plan_picker_script_load = true;
 
@@ -36,15 +38,14 @@ Usage optional: {% render 'skio-plan-picker', product: product, key: key, form_i
       window.SkioLoadJS = (e) => {
         document.head.append(script);
 
-        document.querySelectorAll(selector).forEach(el => {
+        document.querySelectorAll(window.skio_selector).forEach(el => {
           el.removeEventListener('mouseover', window.SkioLoadJS);
           el.removeEventListener('focus', window.SkioLoadJS, { capture: true });
         });
       }
 
-      // ASK: Why not append automatically? Guess: Not load it when unnecessary, for ex when there are no subscriptions 
       window.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll(selector).forEach(el => {
+        document.querySelectorAll(window.skio_selector).forEach(el => {
           el.addEventListener('mouseover', window.SkioLoadJS);
           el.addEventListener('focus', window.SkioLoadJS, { capture: true });
         });
@@ -55,7 +56,7 @@ Usage optional: {% render 'skio-plan-picker', product: product, key: key, form_i
     if (window.SkioPlanPickerAutoInit) {
       window.SkioPlanPickerAutoInit();
     } else {
-      document.querySelectorAll(selector).forEach(el => {
+      document.querySelectorAll(window.skio_selector).forEach(el => {
         el.addEventListener('mouseover', window.SkioLoadJS);
         el.addEventListener('focus', window.SkioLoadJS, { capture: true });
       });
