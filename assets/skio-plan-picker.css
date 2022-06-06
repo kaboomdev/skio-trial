@@ -1,0 +1,106 @@
+.skio-plan-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0;
+  border: 0;
+}
+
+.skio-group-container {
+  display: none;
+}
+.skio-group-container--available {
+  display: block;
+  position: relative;
+  box-shadow: 0 0 5px rgba(23, 24, 24, 0.05), 0 1px 2px rgba(0, 0, 0, 0.07);
+  border-radius: 5px;
+  border-width: 1px;
+  border-color: transparent;
+  border-style: solid; 
+  transition: border-color 0.2s ease;
+}
+.skio-group-container--selected {
+  border-color: #000;
+}
+
+/* Hide frequency if not selected */
+.skio-group-container:not(.skio-group-container--selected) .skio-frequency {
+  display: none;
+}
+
+.skio-group-input {
+  position: absolute;
+  width: 0px;
+  height: 0px;
+  opacity: 0;
+}
+.skio-group-input:focus-visible ~ .skio-group-label {
+  outline: 2px #ccc solid;
+  outline-offset: 4px;
+  border-radius: 5px;
+}
+.skio-group-input:checked ~ .skio-group-label .skio-radio-svg--checked {
+  display: block;
+}
+.skio-group-input:checked ~ .skio-group-label .skio-radio-svg--unchecked {
+  display: none;
+}
+.skio-group-input:not(:checked) ~ .skio-group-label .skio-radio-svg--checked {
+  display: none;
+}
+.skio-group-input:not(:checked) ~ .skio-group-label .skio-radio-svg--unchecked {
+  display: block;
+}
+
+.skio-group-label {
+  display: flex;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.skio-radio-svg__container {
+  margin-right: 10px;
+  margin-top: 7px;
+}
+
+.skio-group-content {
+  width: 100%;
+}
+
+.skio-group-topline {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: space-between;
+  font-size: 16px;
+}
+
+.skio-group-title {
+  min-width: max-content;
+}
+
+.skio-save {
+  color: #0fa573;
+  border: 1px #0fa573 solid; 
+  padding: 0px 8px;
+  border-radius: 20px;
+}
+
+.skio-frequency {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 10px;
+  margin-top: 5px;
+  border-radius: 5px;
+  background-color: #f7f7f7;
+  width: 100%;
+  border: 0;
+  font-size: 14px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.skio-frequency span {
+  text-transform: lowercase;
+}
