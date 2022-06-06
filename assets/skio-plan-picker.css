@@ -135,6 +135,6 @@
   box-shadow: none;
   font-family: inherit; 
   border: var(--inputs-border-width) solid rgba(var(--color-foreground), 0.2);
-  padding: 0.5rem 1rem;
+  padding: 0.5rem;
   gap: 0;
 }
