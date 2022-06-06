@@ -104,3 +104,37 @@
 .skio-frequency span {
   text-transform: lowercase;
 }
+
+/* CUSTOM CODE */
+
+.skio-plan-picker {
+  margin: 0 0 1.5rem;
+  gap: 0;
+}
+
+.skio-radio-svg__container {
+  color: rgba(var(--color-button),var(--alpha-button-background));
+  margin: 0.5rem 0.925rem 0 0;
+}
+
+.skio-group-container--selected  {
+  border: var(--inputs-border-width) solid rgba(var(--color-foreground),var(--inputs-border-opacity));
+}
+
+.skio-group-container--available {
+  box-shadow: none;
+  margin-bottom: 0.5rem;
+}
+
+.skio-group-container--available:last-child {
+  margin-bottom: 0;
+}
+
+.skio-frequency {
+  outline: none;
+  box-shadow: none;
+  font-family: inherit; 
+  border: var(--inputs-border-width) solid rgba(var(--color-foreground), 0.2);
+  padding: 0.5rem 1rem;
+  gap: 0;
+}
