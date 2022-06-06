@@ -23,7 +23,7 @@
       const skio = {};
 
       // Log level
-      skio.logLevel = 'info'; // set to error after setup
+      skio.logLevel = 'error'; // set to error after setup
       const logLevels = { info: 1, warn: 2, error: 3 };
 
       function assert(condition, message, { messageType = 'error', exit = false, docsLink }) {
