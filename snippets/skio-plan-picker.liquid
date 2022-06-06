@@ -42,6 +42,7 @@ Usage optional: {% render 'skio-plan-picker', product: product, key: key, form_i
         });
       }
 
+      // ASK: Why not append automatically? Guess: Not load it when unnecessary, for ex when there are no subscriptions 
       window.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll(selector).forEach(el => {
           el.addEventListener('mouseover', window.SkioLoadJS);

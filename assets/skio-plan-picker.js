@@ -52,6 +52,7 @@
       );
 
       // MAIN PRODUCT
+      // ASK: Why is this needed?
       skio.mainProduct = $planPicker.hasAttribute('skio-main-product');
 
       // DISCOUNT FORMAT	
@@ -84,9 +85,11 @@
       assert($$sellingPlan.length === 1, 'More than 1 selling plan input element found', 
         { messageType: 'warn' });
       const $sellingPlan = $$sellingPlan[0];
+      
+      // Get linked form from inputs form attribute
       skio.formAttr = $sellingPlan.getAttribute('form');
-  
       if (skio.formAttr) skio.form = document.getElementById(skio.formAttr);
+      
       if (!skio.form) skio.form = $planPicker.closest('form[action*="/cart/add"]');
       assert(
         skio.form, 'Couldn\'t find form, either connect to a form or submit using javascript', 
@@ -165,14 +168,16 @@
       // SELLING PLAN GROUPS
       const getAvailableSellingPlanGroupIds = () => {
         const variant = getVariant();
-        const availableSellingPlanGroupIdsSet = new Set();
+        const availableSellingPlanGroupIdsSet = new Set(); 
         variant.selling_plan_allocations.forEach(selling_plan_allocation => {
           const selling_plan_group_id = selling_plan_allocation.selling_plan_group_id;
           const selling_plan_group = skio.product.selling_plan_groups.find(
-            selling_plan_group => selling_plan_group.id === selling_plan_group_id);
+            selling_plan_group => selling_plan_group.id === selling_plan_group_id
+          );
           if (selling_plan_group.name === 'Subscription' || selling_plan_group.name === 'Prepaid')
             availableSellingPlanGroupIdsSet.add(selling_plan_allocation.selling_plan_group_id);
         });
+        // ASK: Why set data structure if it is still converted to array, optimization means?
         const availableSellingPlanGroupIds = Array.from(availableSellingPlanGroupIdsSet);
         skio.availableSellingPlanGroupIds = availableSellingPlanGroupIds;
         return availableSellingPlanGroupIds;
@@ -233,13 +238,14 @@
           }
           const $selectedSellingPlanGroup = $planPicker.querySelector(
             `${skio.selectors.sellingPlanGroup()}:checked`);
-          if (
-            assert($selectedSellingPlanGroup, 'No selected selling plan group', { messageType: 'warn' })
-          ) return null;
-          $selectedSellingPlanGroup.closest(skio.selectors.groupContainer).classList
-            .add('skio-group-container--selected');
-          const selectedSellingPlanGroupId =
-            $selectedSellingPlanGroup.getAttribute('skio-selling-plan-group');
+          
+          if (assert($selectedSellingPlanGroup, 'No selected selling plan group', { messageType: 'warn' })) return null;
+          
+          $selectedSellingPlanGroup
+            .closest(skio.selectors.groupContainer)
+            .classList.add('skio-group-container--selected'); 
+            
+          const selectedSellingPlanGroupId = $selectedSellingPlanGroup.getAttribute('skio-selling-plan-group');
           assert(selectedSellingPlanGroupId, 'No selected selling plan group id', { exit: true });
           skio.selectedSellingPlanGroupId = selectedSellingPlanGroupId;
           return selectedSellingPlanGroupId;
@@ -329,13 +335,20 @@
           const $sellingPlanGroup = $planPicker.querySelector(	
             `${skio.selectors.sellingPlanGroup(availableSellingPlanGroupId)}`	
           );	
-          if (assert($sellingPlanGroup, 
+          if (
+            assert($sellingPlanGroup, 
             `No selling group element found with id "${availableSellingPlanGroupId}"`, 	
-            { messageType: 'info' })) return;	
+            { messageType: 'info' })
+          ) return;	
+          
           const $sellingPlans = $sellingPlanGroup.closest(skio.selectors.groupContainer)
             .querySelector(skio.selectors.sellingPlans());	
-          if (assert($sellingPlans, 'No selling plans element found', 	
-            { messageType: 'info' })) return;	
+          if (
+            assert($sellingPlans, 
+            'No selling plans element found', 	
+            { messageType: 'info' })
+          ) return;	
+          
           const $$discount = $sellingPlanGroup	
             .parentElement.querySelectorAll(skio.selectors.discount);	
           if ($$discount.length === 0) return;
@@ -395,21 +408,39 @@
           const $sellingPlanGroup = $planPicker.querySelector(	
             `${skio.selectors.sellingPlanGroup(availableSellingPlanGroupId)}`	
           );	
-          if (assert($sellingPlanGroup, 
+          if (assert(
+            $sellingPlanGroup, 
             `No selling group element found with id "${availableSellingPlanGroupId}"`, 	
-            { messageType: 'info' })) return;	
-          const $sellingPlans = $sellingPlanGroup.closest(skio.selectors.groupContainer)
+            { messageType: 'info' })
+          ) return;	
+          
+          
+          const $sellingPlans = 
+            $sellingPlanGroup
+            .closest(skio.selectors.groupContainer)
             .querySelector(skio.selectors.sellingPlans());	
-          if (assert($sellingPlans, 'No selling plans element found', 	
-            { messageType: 'info' })) return;	
+            
+          if (
+            assert(
+              $sellingPlans, 
+              'No selling plans element found', 
+              { messageType: 'info' })
+          ) return;	
+          
           const sellingPlan = skio.product.selling_plan_groups	
             .find(selling_plan_group => selling_plan_group.id === availableSellingPlanGroupId)	
             .selling_plans	
             .find(selling_plan => selling_plan.id === parseInt($sellingPlans.value));	
+
           const $subscriptionPrice = $sellingPlanGroup.parentElement
             .querySelector(skio.selectors.subscriptionPrice);	
-          if (assert($subscriptionPrice, 'No price element found', 	
-            { messageType: 'info' })) return;	
+            
+          if (
+            assert($subscriptionPrice, 
+            'No price element found', 	
+            { messageType: 'info' })
+          ) return;	
+          
           const sellingPlanAllocation = skio.variant.selling_plan_allocations.find(
             selling_plan_allocation => selling_plan_allocation.selling_plan_id === sellingPlan.id)
           const price = sellingPlanAllocation.price / 100;
