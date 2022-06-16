@@ -181,7 +181,8 @@
           if (selling_plan_group.name === 'Subscription' || selling_plan_group.name === 'Prepaid')
             availableSellingPlanGroupIdsSet.add(selling_plan_allocation.selling_plan_group_id);
         });
-        // ASK: Why set data structure if it is still converted to array, optimization means?
+        
+
         const availableSellingPlanGroupIds = Array.from(availableSellingPlanGroupIdsSet);
         skio.availableSellingPlanGroupIds = availableSellingPlanGroupIds;
         return availableSellingPlanGroupIds;

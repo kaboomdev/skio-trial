@@ -23,6 +23,7 @@ Usage optional: {% render 'skio-plan-picker', product: product, key: key, form_i
   <script>
     // NOTE: Changed from const to window binding because const in global scope threw errors in AJAX Sections
     window.skio_selector = 'fieldset[skio-plan-picker]';
+    
     // Only loads the script if a plan picker is on the page, and only once
     // the main element is hovered over. doesn't load multiple times if there is are multiple plan pickers.
     // Defer loading to reduce load impact

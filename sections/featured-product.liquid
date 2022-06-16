@@ -272,7 +272,7 @@
                       <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" disabled>
                       
                       <div class="product-form__selling-plans">
-                        {% render 'skio-plan-picker' %}
+                        {% render 'skio-plan-picker', product: all_products[product], form_id: product_form_id, key: product_form_id %}
                       </div>
                       
                       <div class="product-form__buttons">
